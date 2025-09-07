@@ -87,7 +87,7 @@
                         <ul>
                             <li>Date: <strong class="float-right">{{ $booking->availability->date }}</strong></li>
                             <li>Time: <strong class="float-right">{{ $booking->availability->start_time }} - {{ $booking->availability->end_time }}</strong></li>
-                            <li>Doctor: <strong class="float-right">Dr. {{ $booking->doctor->name }}</strong></li>
+                            <li>Doctor: <strong class="float-right">{{ $booking->doctor->name }}</strong></li>
                         </ul>
                     </div>
                     <ul class="treatments checkout clearfix">

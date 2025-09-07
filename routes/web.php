@@ -5,10 +5,20 @@ use App\Http\Controllers\BookingController;
 use App\Http\Controllers\DoctorController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SpecialtyController;
+use App\Http\Controllers\Admin\BookingController as AdminBookingController;
 use App\Models\Doctor;
 use App\Models\Specialty;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
+
+
+
+// routes/web.php
+Route::prefix('admin')->name('admin.')->group(function () {
+    Route::resource('bookings', AdminBookingController::class);
+});
+
+
 
 Route::get('/', function () {
     $doctors = Doctor::with('specialty')->latest()->take(6)->get();

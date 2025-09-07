@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('doctors', function (Blueprint $table) {
             $table->id();
             $table->string('name'); // اسم الدكتور
+            $table->string('email')->unique(); // البريد الإلكتروني
             $table->foreignId('specialty_id')->constrained()->cascadeOnDelete();
             $table->string('photo')->nullable();
             $table->text('bio')->nullable();

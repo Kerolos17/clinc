@@ -18,6 +18,7 @@ class DoctorSeeder extends Seeder
         foreach (range(1, 20) as $i) {
             Doctor::create([
                 'name' => 'Dr. ' . fake()->name(),
+                'email' => fake()->unique()->safeEmail(),
                 'specialty_id' => $specialties->random()->id,
                 'photo' => 'https://placehold.co/400x400',
                 'bio' => fake()->paragraph(),

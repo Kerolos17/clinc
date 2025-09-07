@@ -3,20 +3,19 @@
 namespace App\Http\Controllers;
 
 use App\Jobs\SendBookingConfirmationEmail;
+use App\Jobs\SendDoctorBookingConfirmationEmail;
+use App\Mail\BookingConfirmationMail;
+use App\Mail\DoctorBookingConfirmationMail;
 use App\Models\Booking;
 use App\Models\Availability;
 use App\Models\Service;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 class BookingController extends Controller
 {
-    // public function index(Booking $booking)
-    // {
-    //     $booking = Booking::with(['doctor', 'availability', 'services'])->findOrFail($booking->id);
-    //     return view('bookings.index', compact('booking'));
-    // }
     public function store(Request $request)
     {
         $request->validate([
@@ -99,6 +98,18 @@ class BookingController extends Controller
 
         // ✅ استدعاء الـ Job لإرسال الإيميل في الخلفية
         SendBookingConfirmationEmail::dispatch($booking);
+        SendDoctorBookingConfirmationEmail::dispatch($booking);
+        // إرسال الميل للطبيب (لو عنده إيميل)
+        // if ($booking->doctor && $booking->doctor->email) {
+        //     Mail::to($booking->doctor->email)
+        //         ->send(new DoctorBookingConfirmationMail($booking));
+        // }
+
+        // // إرسال الميل للمريض
+        // if ($booking->patient_email) {
+        //     Mail::to($booking->patient_email)
+        //         ->send(new BookingConfirmationMail($booking));
+        // }
 
         // ✅ بعدين نعمل redirect
         return redirect()->route('bookings.success', $booking->id)
